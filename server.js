@@ -101,7 +101,7 @@ async function handleEvent(event) {
                 text: 'エラーが発生しました。',
             });
         }
-    } else if (event.message.text === 'スタート') {
+    } else if (event.message.text === 'サイコロ') {
         try {
             const dice = Math.floor(Math.random()*6);1;
             return client.replyMessage(event.replyToken, {
