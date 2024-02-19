@@ -48,7 +48,7 @@ async function handleEvent(event) {
                     text: 'イッヌたちです',
                     actions: [
                         {
-                            type: "url",
+                            type: "uri",
                             label: "画像を見る",
                             uri: imageUrlD
                         }
