@@ -104,9 +104,21 @@ async function handleEvent(event) {
     } else if (event.message.text === 'サイコロ') {
         try {
             const dice = Math.floor(Math.random()*6);1;
+            const diceImageUrls = [
+                'dice1.png',
+                'dice2.png',
+                'dice3.png',
+                'dice4.png',
+                'dice5.png',
+                'dice6.png',
+            ];
+
+            const diceImageUrl = diceImageUrls[dice - 1];
+
             return client.replyMessage(event.replyToken, {
-                type: 'text',
-                text: dice,
+                type: 'image',
+                originalContentUrl: diceImageUrl,
+                previewImageUrl: diceImageUrl,
             });
 
         } catch (error) {
