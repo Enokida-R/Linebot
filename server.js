@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const line = require('@line/bot-sdk');
+const axios = require ('axios');
 //const ngrok = require('@ngrok/ngrok');
 
 const app = express();
@@ -26,17 +27,41 @@ app.get('/', (req, res) => {
   });
 
 //イベントハンドラー関数
-function handleEvent(event) {
+async function handleEvent(event) {
     if (event.type !== 'message' || event.message.type !== 'text') {
         //テキストメッセージ以外は無視
         return Promise.resolve(null);
     }
 
     //ユーザーからのメッセージに対する応答
-    return client.replyMessage(event.replyToken, {
-        type: 'text',
-        text: event.message.text,
-    });
+    if (event.message.text === 'イッヌ') {
+        try {
+            const response = await axios.get('https://dog.ceo/api/breeds/image/random/');
+            const imageUrl = response.message; //APIからのレスポンスから画像のUrl
+
+            return client.replyMessage(event.replyToken, {
+                type: 'image',
+                originalContentUrl: imageUrl,
+                previewImageUrl: imageUrl,
+            });
+        } catch (error) {
+            console.error(error);
+            return client.replyMessage(event.replyMessage, {
+                type: 'text',
+                text: 'エラーが発生しました。',
+            });
+        }
+    } else {
+        return client.replyMessage(event.replyToken, {
+            type: 'text',
+            text: event.message.text,
+        });
+    }
+
+
+
+
+    
 }
 
 
