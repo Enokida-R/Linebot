@@ -105,12 +105,12 @@ async function handleEvent(event) {
         try {
             const dice = Math.floor(Math.random()*6);1;
             const diceImageUrls = [
-                'https://imgur.com/1uTWOlT',
-                'https://imgur.com/3EKPjss',
-                'https://imgur.com/1okJPPa',
-                'https://imgur.com/Sj1o7mA',
-                'https://imgur.com/qSMKlao',
-                'https://imgur.com/0AWQkIw',
+                'https://i.imgur.com/1uTWOlT.png',
+                'https://i.imgur.com/3EKPjss.png',
+                'https://i.imgur.com/1okJPPa.png',
+                'https://i.imgur.com/Sj1o7mA.png',
+                'https://i.imgur.com/qSMKlao.png',
+                'https://i.imgur.com/0AWQkIw.png',
             ];
 
             const diceImageUrl = diceImageUrls[dice - 1];
