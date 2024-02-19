@@ -36,13 +36,13 @@ async function handleEvent(event) {
     //ユーザーからのメッセージに対する応答
     if (event.message.text === 'イッヌ') {
         try {
-            const response = await axios.get('https://dog.ceo/api/breeds/image/random/');
-            const imageUrl = response.data.message; //APIからのレスポンスから画像のUrl
+            const responseD = await axios.get('https://dog.ceo/api/breeds/image/random/');
+            const imageUrlD = responseD.data.message; //APIからのレスポンスから画像のUrl
 
             return client.replyMessage(event.replyToken, {
                 type: 'image',
-                originalContentUrl: imageUrl,
-                previewImageUrl: imageUrl,
+                originalContentUrl: imageUrlD,
+                previewImageUrl: imageUrlD,
             });
         } catch (error) {
             console.error(error);
@@ -51,7 +51,24 @@ async function handleEvent(event) {
                 text: 'エラーが発生しました。',
             });
         }
-    } else {
+    } else if (event.message.text === 'ネコ') {
+        try {
+            const responseC = await axios.get('https://api.thecatapi.com/v1/images/search?limit=1');
+            const imageUrlC =responseC.data.item.url;
+
+            return client.replyMessage(event.replyToken, {
+                type: 'image',
+                originalContentUrl: imageUrlC,
+                previewImageUrl: imageUrlC,
+            });
+        } catch (error) {
+            console.log(error);
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: 'エラーが発生しました。',
+            });
+        }
+    }else {
         return client.replyMessage(event.replyToken, {
             type: 'text',
             text: event.message.text,
