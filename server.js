@@ -103,11 +103,10 @@ async function handleEvent(event) {
         }
     } else if (event.message.text === 'スタート') {
         try {
-            let i = 0;
-            i = i + 1;
+            const dice = Math.floor(Math.random()*6);1;
             return client.replyMessage(event.replyToken, {
                 type: 'text',
-                text: i,
+                text: dice,
             });
 
         } catch (error) {
