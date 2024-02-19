@@ -103,7 +103,7 @@ async function handleEvent(event) {
         }
     } else if (event.message.text === 'サイコロ') {
         try {
-            const dice = Math.floor(Math.random()*6);1;
+            const dice = Math.floor(Math.random()*6)+1;
             const diceImageUrls = [
                 'https://i.imgur.com/1uTWOlT.png',
                 'https://i.imgur.com/3EKPjss.png',
