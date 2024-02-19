@@ -37,7 +37,7 @@ async function handleEvent(event) {
     if (event.message.text === 'イッヌ') {
         try {
             const response = await axios.get('https://dog.ceo/api/breeds/image/random/');
-            const imageUrl = response.message; //APIからのレスポンスから画像のUrl
+            const imageUrl = response.data.message; //APIからのレスポンスから画像のUrl
 
             return client.replyMessage(event.replyToken, {
                 type: 'image',
@@ -46,7 +46,7 @@ async function handleEvent(event) {
             });
         } catch (error) {
             console.error(error);
-            return client.replyMessage(event.replyMessage, {
+            return client.replyMessage(event.replyToken, {
                 type: 'text',
                 text: 'エラーが発生しました。',
             });
