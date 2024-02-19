@@ -101,7 +101,23 @@ async function handleEvent(event) {
                 text: 'エラーが発生しました。',
             });
         }
-    }else {
+    } else if (event.message.text === 'スタート') {
+        try {
+            let i = 0;
+            i = i + 1;
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: i,
+            });
+
+        } catch (error) {
+            console.log(error);
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: 'エラーが発生しました。',
+            });
+        }
+    } else {
         return client.replyMessage(event.replyToken, {
             type: 'text',
             text: event.message.text,
