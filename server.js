@@ -36,7 +36,7 @@ async function handleEvent(event) {
     //ユーザーからのメッセージに対する応答
     if (event.message.text === 'イッヌ') {
         try {
-            const responseD = await axios.get('https://dog.ceo/api/breeds/image/random/');
+            const responseD = await axios.get('https://dog.ceo/api/breeds/image/random/6');
             const imageUrlD = responseD.data.message; //APIからのレスポンスから画像のUrl
 
             return client.replyMessage(event.replyToken, {
