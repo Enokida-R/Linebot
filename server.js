@@ -104,13 +104,13 @@ async function handleEvent(event) {
     } else if (event.message.text === 'サイコロ') {
         try {
             const dice = Math.floor(Math.random()*6);1;
-            /*const diceImageUrls = [
-                'dice1.png',
-                'dice2.png',
-                'dice3.png',
-                'dice4.png',
-                'dice5.png',
-                'dice6.png',
+            const diceImageUrls = [
+                'https://imgur.com/1uTWOlT',
+                'https://imgur.com/3EKPjss',
+                'https://imgur.com/1okJPPa',
+                'https://imgur.com/Sj1o7mA',
+                'https://imgur.com/qSMKlao',
+                'https://imgur.com/0AWQkIw',
             ];
 
             const diceImageUrl = diceImageUrls[dice - 1];
@@ -119,11 +119,11 @@ async function handleEvent(event) {
                 type: 'image',
                 originalContentUrl: diceImageUrl,
                 previewImageUrl: diceImageUrl,
-            });*/
-            return client.replyMessage(event.replyToken, {
+            });
+            /*return client.replyMessage(event.replyToken, {
                 type: 'text',
                 text: dice,
-            });
+            });*/
             
 
         } catch (error) {
