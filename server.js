@@ -36,14 +36,17 @@ async function handleEvent(event) {
     //ユーザーからのメッセージに対する応答
     if (event.message.text === 'イッヌ') {
         try {
-            const responseD = await axios.get('https://dog.ceo/api/breeds/image/random/6');
-            const imageUrlD = responseD.data.message; //APIからのレスポンスから画像のUrl
+            for (let i = 0; i < 6; i++){
+                const responseD = await axios.get('https://dog.ceo/api/breeds/image/random/');
+                const imageUrlD = responseD.data.message; //APIからのレスポンスから画像のUrl
 
-            return client.replyMessage(event.replyToken, {
-                type: 'image',
-                originalContentUrl: imageUrlD,
-                previewImageUrl: imageUrlD,
-            });
+                return client.replyMessage(event.replyToken, {
+                    type: 'image',
+                    originalContentUrl: imageUrlD,
+                    previewImageUrl: imageUrlD,
+                });
+            }
+            
         } catch (error) {
             console.error(error);
             return client.replyMessage(event.replyToken, {
