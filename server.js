@@ -63,7 +63,10 @@ async function handleEvent(event) {
                     previewImageUrl: imageUrlD,
                 });*/
 
-                if (columns.length > 0) {
+                
+            }
+            
+            if (columns.length > 0) {
                     return client.replyMessage(event.replyToken, {
                         type: "template",
                         altText: "イッヌの画像",
@@ -73,7 +76,6 @@ async function handleEvent(event) {
                         }
                     });
                 }
-            }
             
         } catch (error) {
             console.error(error);
