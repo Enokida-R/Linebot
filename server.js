@@ -54,7 +54,7 @@ async function handleEvent(event) {
     } else if (event.message.text === 'ネコ') {
         try {
             const responseC = await axios.get('https://api.thecatapi.com/v1/images/search?limit=1');
-            const imageUrlC =responseC.data.item.url;
+            const imageUrlC =responseC.data.url;
 
             return client.replyMessage(event.replyToken, {
                 type: 'image',
