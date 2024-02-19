@@ -36,15 +36,43 @@ async function handleEvent(event) {
     //ユーザーからのメッセージに対する応答
     if (event.message.text === 'イッヌ') {
         try {
+            let columns = [];
             for (let i = 0; i < 6; i++){
                 const responseD = await axios.get('https://dog.ceo/api/breeds/image/random/');
                 const imageUrlD = responseD.data.message; //APIからのレスポンスから画像のUrl
 
-                return client.replyMessage(event.replyToken, {
+                const column = {
+                    thumbnailImageUrl: imageUrlD,
+                    imageBackgroundColor: "#FFFFFF",
+                    title: 'わんわん',
+                    text: 'イッヌたちです',
+                    actions: [
+                        {
+                            type: "url",
+                            label: "画像を見る",
+                            uri: imageUrlD
+                        }
+                    ]
+                };
+                columns.push(column);
+
+
+                /*return client.replyMessage(event.replyToken, {
                     type: 'image',
                     originalContentUrl: imageUrlD,
                     previewImageUrl: imageUrlD,
-                });
+                });*/
+
+                if (columns.length > 0) {
+                    return client.replyMessage(event.replyToken, {
+                        type: "template",
+                        altText: "イッヌの画像",
+                        template: {
+                            type: "carousel",
+                            columns: columns
+                        }
+                    });
+                }
             }
             
         } catch (error) {
