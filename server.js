@@ -158,7 +158,32 @@ async function handleEvent(event) {
                 text: 'エラーが発生しました。',
             });
         }
-    } else if (event.message.text.startsWith('歌詞')) {
+    } else if (event.message.text === 'ねこ') {
+        try {
+            const haruCat = Math.floor(Math.random()*6)+1;
+            const haruCatImgs = [
+                'https://i.imgur.com/ksjMY1N.jpg',
+                'https://i.imgur.com/PfB61Z7.jpg',
+                'https://i.imgur.com/m13lGgr.jpg',
+                'https://i.imgur.com/gczZzMz.jpg',
+                'https://i.imgur.com/jUmloeF.jpg',
+                'https://i.imgur.com/qHImYOP.jpg',
+            ];
+            const haruCatImg = haruCatImgs[haruCat-1];
+            
+            return client.replyMessage(event.replyToken, {
+                type: 'image',
+                originalContentUrl: haruCatImg,
+                previewImageUrl: haruCatImg,
+            });
+        } catch (error) {
+            console.log(error);
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: 'エラーが発生しました。',
+            });
+        }
+    }else if (event.message.text.startsWith('歌詞')) {
         const lyrics = event.message.text.slice(2).trim();//'歌詞'を除いて
         const songInfo = await searchSong(lyrics);
 
