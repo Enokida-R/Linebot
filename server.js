@@ -57,11 +57,6 @@ async function handleEvent(event) {
     //ストップウォッチ
     let startTime = null;
 
-async function handleEvent(event) {
-    if (event.type !== 'message' || event.message.type !== 'text') {
-        return Promise.resolve(null);
-    }
-
     const userMessage = event.message.text;
     let replyMessage = '';
 
