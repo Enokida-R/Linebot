@@ -26,6 +26,8 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
   });
 
+
+
 //イベントハンドラー関数
 async function handleEvent(event) {
     if (event.type !== 'message' || event.message.type !== 'text') {
@@ -58,8 +60,8 @@ async function handleEvent(event) {
 
 
 
-    //ユーザーからのメッセージに対する応答
-    if (event.message.text === 'イッヌ') {
+//ユーザーからのメッセージに対する応答
+if (event.message.text === 'イッヌ') {
         try {
             let columns = [];
             for (let i = 0; i < 6; i++){
