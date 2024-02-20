@@ -162,12 +162,12 @@ async function handleEvent(event) {
 
         if (songInfo && songInfo.length > 0) {
             //検索がヒットした場合
-            const message = songInfo.slice(0, 5).map(song => ({
+            const messages = songInfo.slice(0, 5).map(song => ({
                 type: 'text',
                 text: `曲名: ${song.title}\nアーティスト: ${song.artist}\nUrl: ${song.url}`
             }));
 
-            return client.replyMessage(event.replyToken, message);
+            return client.replyMessage(event.replyToken, messages);
         } else {
             return client.replyMessage(event.replyToken, {
                 type: 'text',
