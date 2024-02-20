@@ -41,15 +41,14 @@ async function handleEvent(event) {
                 headers: { 'Authorization': `Bearer ${accessToken}`}
             });
 
-            if (responseS.data.response.hits.length > 0) {
-                const firstHit = responseS.data.response.hits[0].result;
-                return {title: firstHit.title, artist: firstHit.primary_artist.name, url: firstHit.url};
-            } else {
-                return null;
-            }
+            return responseS.data.response.hits.map(hit => ({
+                title: hit.result.title,
+                artist: hit.result.primary_artist.name,
+                url: hit.result.url
+            })).slice(0, 5);//最大5個の結果を出す
         } catch (error) {
             console.error('Error', error);
-            return null;
+            return [];
         }
     }
 
@@ -161,12 +160,14 @@ async function handleEvent(event) {
         const lyrics = event.message.text.slice(2).trim();//'歌詞'を除いて
         const songInfo = await searchSong(lyrics);
 
-        if (songInfo) {
+        if (songInfo && songInfo.length > 0) {
             //検索がヒットした場合
-            return client.replyMessage(event.replyToken, {
+            const message = songInfo.slice(0, 5).map(song => ({
                 type: 'text',
-                text: `曲名: ${songInfo.title}\nアーティスト: ${songInfo.artist}\nURL: ${songInfo.url}`
-            });
+                text: `曲名: ${song.title}\nアーティスト: ${song.artist}\nUrl: ${song.url}`
+            }));
+
+            return client.replyMessage(event.replyToken, message);
         } else {
             return client.replyMessage(event.replyToken, {
                 type: 'text',
