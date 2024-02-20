@@ -33,6 +33,30 @@ async function handleEvent(event) {
         return Promise.resolve(null);
     }
 
+    //歌詞検索の関数
+    async function searchSong(lyrics){
+        const accessToken = process.env.GENIUS_ACCESS_TOKEN;
+        try {
+            const responseS = await axios.get(`https://api.genius.com/search?q=${encodeURIComponent(lyrics)}`, {
+                headers: { 'Authorization': `Bearer ${accessToken}`}
+            });
+
+            if (responseS.data.response.hits.length > 0) {
+                const firstHit = responseS.data.response.hits[0].result;
+                return {title: firstHit.title, artist: firstHit.primary_artist.name, url: firstHit.url};
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Error', error);
+            return null;
+        }
+    }
+
+
+
+
+
     //ユーザーからのメッセージに対する応答
     if (event.message.text === 'イッヌ') {
         try {
@@ -132,6 +156,22 @@ async function handleEvent(event) {
                 type: 'text',
                 text: 'エラーが発生しました。',
             });
+        }
+    } else if (event.message.text.startsWith('歌詞')) {
+        const lyrics = event.message.text.slice(2).trim();//'歌詞'を除いて
+        const songInfo = await searchSong(lyrics);
+
+        if (songInfo) {
+            //検索がヒットした場合
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: `曲名: ${songInfo.title}\nアーティスト: ${songInfo.artist}\nURL: ${songInfo.url}`
+            });
+        } else {
+            return client.replyMessage(event.replyToken, {
+                type: 'text',
+                text: '該当する曲が見つかりませんでした。'
+            })
         }
     } else {
         return client.replyMessage(event.replyToken, {
