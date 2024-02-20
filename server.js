@@ -53,13 +53,6 @@ async function handleEvent(event) {
             return [];
         }
     }
-
-}
-
-
-
-
-
 //ユーザーからのメッセージに対する応答
 if (event.message.text === 'イッヌ') {
         try {
@@ -209,6 +202,13 @@ if (event.message.text === 'イッヌ') {
             text: event.message.text,
         });
     }
+}
+
+
+
+
+
+
 
 
 
