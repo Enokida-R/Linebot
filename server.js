@@ -212,7 +212,7 @@ async function handleEvent(event) {
 
 
     
-}
+
 
 
 //LINE SDK クライアントの作成
