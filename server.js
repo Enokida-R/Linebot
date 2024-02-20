@@ -54,6 +54,53 @@ async function handleEvent(event) {
 
 
 
+    //ストップウォッチ
+    let startTime = null;
+
+async function handleEvent(event) {
+    if (event.type !== 'message' || event.message.type !== 'text') {
+        return Promise.resolve(null);
+    }
+
+    const userMessage = event.message.text;
+    let replyMessage = '';
+
+    switch (userMessage) {
+        case 'スタート':
+            startTime = Date.now();
+            replyMessage = 'ストップウォッチを開始しました。';
+            break;
+        case 'ストップ':
+            if (startTime) {
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                replyMessage = `経過時間は ${elapsedSeconds} 秒です。`;
+                startTime = null; // タイマーをリセット
+            } else {
+                replyMessage = 'ストップウォッチは開始されていません。';
+            }
+            break;
+        case '経過時間':
+            if (startTime) {
+                const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+                replyMessage = `経過時間は ${elapsedSeconds} 秒です。`;
+            } else {
+                replyMessage = 'ストップウォッチは開始されていません。';
+            }
+            break;
+        default:
+            // その他のメッセージに対する処理
+            replyMessage = '開始、停止、経過時間のいずれかのコマンドを送信してください。';
+            break;
+    }
+
+    return client.replyMessage(event.replyToken, {
+        type: 'text',
+        text: replyMessage,
+    });
+}
+
+
+
 
 
     //ユーザーからのメッセージに対する応答
