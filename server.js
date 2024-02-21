@@ -35,6 +35,14 @@ async function handleEvent(event) {
         return Promise.resolve(null);
     }
 
+    //サイコロ関数
+    function deice() {
+        const dice = Math.floor(Math.random()*6)+1;
+        return dice;
+    }
+
+
+
     //歌詞検索の関数
     async function searchSong(lyrics){
         const accessToken = process.env.GENIUS_ACCESS_TOKEN;
@@ -53,134 +61,133 @@ async function handleEvent(event) {
             return [];
         }
     }
-//ユーザーからのメッセージに対する応答
-if (event.message.text === 'イッヌ') {
-        try {
-            let columns = [];
-            for (let i = 0; i < 6; i++){
-                const responseD = await axios.get('https://dog.ceo/api/breeds/image/random/');
-                const imageUrlD = responseD.data.message; //APIからのレスポンスから画像のUrl
+    //ユーザーからのメッセージに対する応答
+    if (event.message.text === 'イッヌ') {
+            try {
+                let columns = [];
+                for (let i = 0; i < 6; i++){
+                    const responseD = await axios.get('https://dog.ceo/api/breeds/image/random/');
+                    const imageUrlD = responseD.data.message; //APIからのレスポンスから画像のUrl
 
-                const column = {
-                    thumbnailImageUrl: imageUrlD,
-                    imageBackgroundColor: "#FFFFFF",
-                    title: 'わんわん',
-                    text: 'イッヌたちです',
-                    actions: [
-                        {
-                            type: "uri",
-                            label: "画像を見る",
-                            uri: imageUrlD
-                        }
-                    ]
-                };
-                columns.push(column);
+                    const column = {
+                        thumbnailImageUrl: imageUrlD,
+                        imageBackgroundColor: "#FFFFFF",
+                        title: 'わんわん',
+                        text: 'イッヌたちです',
+                        actions: [
+                            {
+                                type: "uri",
+                                label: "画像を見る",
+                                uri: imageUrlD
+                            }
+                        ]
+                    };
+                    columns.push(column);
 
 
-                /*return client.replyMessage(event.replyToken, {
-                    type: 'image',
-                    originalContentUrl: imageUrlD,
-                    previewImageUrl: imageUrlD,
-                });*/
+                    /*return client.replyMessage(event.replyToken, {
+                        type: 'image',
+                        originalContentUrl: imageUrlD,
+                        previewImageUrl: imageUrlD,
+                    });*/
 
-                
-            }
-            
-            if (columns.length > 0) {
-                    return client.replyMessage(event.replyToken, {
-                        type: "template",
-                        altText: "イッヌの画像",
-                        template: {
-                            type: "carousel",
-                            columns: columns
-                        }
-                    });
+                    
                 }
-            
-        } catch (error) {
-            console.error(error);
-            return client.replyMessage(event.replyToken, {
-                type: 'text',
-                text: 'エラーが発生しました。',
-            });
-        }
-    } else if (event.message.text === 'ネコ') {
-        try {
-            const responseC = await axios.get('https://api.thecatapi.com/v1/images/search?limit=1');
-            const imageUrlC =responseC.data[0].url;
+                
+                if (columns.length > 0) {
+                        return client.replyMessage(event.replyToken, {
+                            type: "template",
+                            altText: "イッヌの画像",
+                            template: {
+                                type: "carousel",
+                                columns: columns
+                            }
+                        });
+                    }
+                
+            } catch (error) {
+                console.error(error);
+                return client.replyMessage(event.replyToken, {
+                    type: 'text',
+                    text: 'エラーが発生しました。',
+                });
+            }
+        } else if (event.message.text === 'ネコ') {
+            try {
+                const responseC = await axios.get('https://api.thecatapi.com/v1/images/search?limit=1');
+                const imageUrlC =responseC.data[0].url;
 
-            return client.replyMessage(event.replyToken, {
-                type: 'image',
-                originalContentUrl: imageUrlC,
-                previewImageUrl: imageUrlC,
-            });
-        } catch (error) {
-            console.log(error);
-            return client.replyMessage(event.replyToken, {
-                type: 'text',
-                text: 'エラーが発生しました。',
-            });
-        }
-    } else if (event.message.text === 'サイコロ') {
-        try {
-            const dice = Math.floor(Math.random()*6)+1;
-            const diceImageUrls = [
-                'https://i.imgur.com/1uTWOlT.png',
-                'https://i.imgur.com/3EKPjss.png',
-                'https://i.imgur.com/1okJPPa.png',
-                'https://i.imgur.com/Sj1o7mA.png',
-                'https://i.imgur.com/qSMKlao.png',
-                'https://i.imgur.com/0AWQkIw.png',
-            ];
+                return client.replyMessage(event.replyToken, {
+                    type: 'image',
+                    originalContentUrl: imageUrlC,
+                    previewImageUrl: imageUrlC,
+                });
+            } catch (error) {
+                console.log(error);
+                return client.replyMessage(event.replyToken, {
+                    type: 'text',
+                    text: 'エラーが発生しました。',
+                });
+            }
+        } else if (event.message.text === 'サイコロ') {
+            try {
+                const diceImageUrls = [
+                    'https://i.imgur.com/1uTWOlT.png',
+                    'https://i.imgur.com/3EKPjss.png',
+                    'https://i.imgur.com/1okJPPa.png',
+                    'https://i.imgur.com/Sj1o7mA.png',
+                    'https://i.imgur.com/qSMKlao.png',
+                    'https://i.imgur.com/0AWQkIw.png',
+                ];
 
-            const diceImageUrl = diceImageUrls[dice - 1];
+                const diceImageUrl = diceImageUrls[dice() - 1];
 
-            return client.replyMessage(event.replyToken, {
-                type: 'image',
-                originalContentUrl: diceImageUrl,
-                previewImageUrl: diceImageUrl,
-            });
-            /*return client.replyMessage(event.replyToken, {
-                type: 'text',
-                text: dice,
-            });*/
-            
+                return client.replyMessage(event.replyToken, {
+                    type: 'image',
+                    originalContentUrl: diceImageUrl,
+                    previewImageUrl: diceImageUrl,
+                });
+                /*return client.replyMessage(event.replyToken, {
+                    type: 'text',
+                    text: dice,
+                });*/
+                
 
-        } catch (error) {
-            console.log(error);
-            return client.replyMessage(event.replyToken, {
-                type: 'text',
-                text: 'エラーが発生しました。',
-            });
-        }
-    } else if (event.message.text === 'ねこ') {
-        try {
-            const haruCat = Math.floor(Math.random()*6)+1;
-            const haruCatImgs = [
-                'https://i.imgur.com/ksjMY1N.jpg',
-                'https://i.imgur.com/PfB61Z7.jpg',
-                'https://i.imgur.com/m13lGgr.jpg',
-                'https://i.imgur.com/gczZzMz.jpg',
-                'https://i.imgur.com/jUmloeF.jpg',
-                'https://i.imgur.com/qHImYOP.jpg',
-            ];
-            const haruCatImg = haruCatImgs[haruCat-1];
-            
-            return client.replyMessage(event.replyToken, {
-                type: 'image',
-                originalContentUrl: haruCatImg,
-                previewImageUrl: haruCatImg,
-            });
-        } catch (error) {
-            console.log(error);
-            return client.replyMessage(event.replyToken, {
-                type: 'text',
-                text: 'エラーが発生しました。',
-            });
-        }
-    }else if (event.message.text.startsWith('歌詞')) {
-        const lyrics = event.message.text.slice(2).trim();//'歌詞'を除いて
-        const songInfo = await searchSong(lyrics);
+            } catch (error) {
+                console.log(error);
+                return client.replyMessage(event.replyToken, {
+                    type: 'text',
+                    text: 'エラーが発生しました。',
+                });
+            }
+        } else if (event.message.text === 'ねこ') {
+            try {
+                const haruCat = Math.floor(Math.random()*6)+1;
+                const haruCatImgs = [
+                    'https://i.imgur.com/ksjMY1N.jpg',
+                    'https://i.imgur.com/PfB61Z7.jpg',
+                    'https://i.imgur.com/m13lGgr.jpg',
+                    'https://i.imgur.com/gczZzMz.jpg',
+                    'https://i.imgur.com/jUmloeF.jpg',
+                    'https://i.imgur.com/qHImYOP.jpg',
+                ];
+                const haruCatImg = haruCatImgs[haruCat-1];
+                
+                return client.replyMessage(event.replyToken, {
+                    type: 'image',
+                    originalContentUrl: haruCatImg,
+                    previewImageUrl: haruCatImg,
+                });
+            } catch (error) {
+                console.log(error);
+                return client.replyMessage(event.replyToken, {
+                    type: 'text',
+                    text: 'エラーが発生しました。',
+                });
+            }
+        }else if (event.message.text.startsWith('歌詞')) {
+            const lyrics = event.message.text.slice(2).trim();//'歌詞'を除いて
+            const songInfo = await searchSong(lyrics);
 
         if (songInfo && songInfo.length > 0) {
             //検索がヒットした場合
