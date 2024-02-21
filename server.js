@@ -36,7 +36,7 @@ async function handleEvent(event) {
     }
 
     //サイコロ関数
-    function deice() {
+    function dice() {
         const dice = Math.floor(Math.random()*6)+1;
         return dice;
     }
@@ -140,7 +140,7 @@ async function handleEvent(event) {
                     'https://i.imgur.com/0AWQkIw.png',
                 ];
 
-                const diceImageUrl = diceImageUrls[dice() - 1];
+                const diceImageUrl = diceImageUrls[ dice() - 1];
 
                 return client.replyMessage(event.replyToken, {
                     type: 'image',
