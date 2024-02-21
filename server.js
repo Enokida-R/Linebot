@@ -62,9 +62,9 @@ async function handleEvent(event) {
         }
     }
 
-    
+    const userMessage = event.message.tetx;
     //ユーザーからのメッセージに対する応答
-    if (event.message.text === 'イッヌ') {
+    if (userMessage === 'イッヌ') {
             try {
                 let columns = [];
                 for (let i = 0; i < 6; i++){
@@ -114,7 +114,7 @@ async function handleEvent(event) {
                     text: 'エラーが発生しました。',
                 });
             }
-        } else if (event.message.text === 'ネコ') {
+        } else if (userMessage === 'ネコ') {
             try {
                 const responseC = await axios.get('https://api.thecatapi.com/v1/images/search?limit=1');
                 const imageUrlC =responseC.data[0].url;
@@ -131,7 +131,7 @@ async function handleEvent(event) {
                     text: 'エラーが発生しました。',
                 });
             }
-        } else if (event.message.text === 'サイコロ') {
+        } else if (userMessage === 'サイコロ') {
             try {
                 const diceImageUrls = [
                     'https://i.imgur.com/1uTWOlT.png',
@@ -162,7 +162,7 @@ async function handleEvent(event) {
                     text: 'エラーが発生しました。',
                 });
             }
-        } else if (event.message.text === 'ねこ') {
+        } else if (userMessage === 'ねこ') {
             try {
                 const haruCatImgs = [
                     'https://i.imgur.com/ksjMY1N.jpg',
@@ -186,8 +186,8 @@ async function handleEvent(event) {
                     text: 'エラーが発生しました。',
                 });
             }
-        }else if (event.message.text.startsWith('歌詞')) {
-            const lyrics = event.message.text.slice(2).trim();//'歌詞'を除いて
+        }else if (userMessage.startsWith('歌詞')) {
+            const lyrics = userMessage.slice(2).trim();//'歌詞'を除いて
             const songInfo = await searchSong(lyrics);
 
             if (songInfo && songInfo.length > 0) {
@@ -207,7 +207,7 @@ async function handleEvent(event) {
     } else {
         return client.replyMessage(event.replyToken, {
             type: 'text',
-            text: event.message.text,
+            text: userMessage,
         });
     }
 }
