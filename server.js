@@ -61,6 +61,8 @@ async function handleEvent(event) {
             return [];
         }
     }
+
+    
     //ユーザーからのメッセージに対する応答
     if (event.message.text === 'イッヌ') {
             try {
@@ -162,7 +164,6 @@ async function handleEvent(event) {
             }
         } else if (event.message.text === 'ねこ') {
             try {
-                const haruCat = Math.floor(Math.random()*6)+1;
                 const haruCatImgs = [
                     'https://i.imgur.com/ksjMY1N.jpg',
                     'https://i.imgur.com/PfB61Z7.jpg',
@@ -171,7 +172,7 @@ async function handleEvent(event) {
                     'https://i.imgur.com/jUmloeF.jpg',
                     'https://i.imgur.com/qHImYOP.jpg',
                 ];
-                const haruCatImg = haruCatImgs[haruCat-1];
+                const haruCatImg = haruCatImgs[ dice() - 1];
                 
                 return client.replyMessage(event.replyToken, {
                     type: 'image',
@@ -189,15 +190,15 @@ async function handleEvent(event) {
             const lyrics = event.message.text.slice(2).trim();//'歌詞'を除いて
             const songInfo = await searchSong(lyrics);
 
-        if (songInfo && songInfo.length > 0) {
-            //検索がヒットした場合
-            const messages = songInfo.slice(0, 5).map(song => ({
-                type: 'text',
-                text: `曲名: ${song.title}\nアーティスト: ${song.artist}\nUrl: ${song.url}`
-            }));
+            if (songInfo && songInfo.length > 0) {
+                //検索がヒットした場合
+                const messages = songInfo.slice(0, 5).map(song => ({
+                    type: 'text',
+                    text: `曲名: ${song.title}\nアーティスト: ${song.artist}\nUrl: ${song.url}`
+                }));
 
-            return client.replyMessage(event.replyToken, messages);
-        } else {
+                return client.replyMessage(event.replyToken, messages);
+            } else {
             return client.replyMessage(event.replyToken, {
                 type: 'text',
                 text: '該当する曲が見つかりませんでした。'
