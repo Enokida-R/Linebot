@@ -6,27 +6,6 @@ const axios = require ('axios');
 
 
 
-const os = require('os');
-const winston = require('winston');
-require('winston-syslog');
-
-const papertrail = new winston.transports.Syslog({
-  host: 'logsN.papertrailapp.com',
-  port: 17533, // ここにPapertrailから提供されたポート番号を入力
-  protocol: 'tls4',
-  localhost: os.hostname(),
-  eol: '\n',
-});
-
-const logger = winston.createLogger({
-  format: winston.format.simple(),
-  levels: winston.config.syslog.levels,
-  transports: [papertrail],
-});
-
-logger.info('hello papertrail');
-
-
 
 
 
