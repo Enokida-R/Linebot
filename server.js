@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const line = require('@line/bot-sdk');
 const axios = require ('axios');
-//const ngrok = require('@ngrok/ngrok');
+
 
 const app = express();
 
@@ -10,6 +10,55 @@ const config = {
     channelAccessToken: process.env.CHANNEL_ACCESS_TOKEN,
     channelSecret: process.env.CHANNEL_SECRET,
 };
+
+//LINE SDK クライアントの作成
+const client = new line.Client(config);
+
+
+async function fetchTweets(fromAccount, hashtag) {
+    const query = `from:${fromAccount} ${hashtag}`;
+    const url = `https://api.twitter.com/2/tweets/search/recent?query=${encodeURIComponent(query)}`;
+    const headers = { Authirization: `Bearer ${process.env.TEITTER_BEARE_TOKEN}`};
+
+    try {
+        const responseT = await axios.get(url, { headers });
+        return responseT.data.data || [];
+    } catch (error) {
+        console.log(error);
+        return [];
+    }
+}
+
+
+async function sendTweets(tweets) {
+    const messages = tweets.map(tweet => ({
+        type: 'text',
+        text: tweet.text
+    }));
+
+
+    const userId = process.env.LINE_USER_ID;
+
+    for (const message of messages) {
+        await client.pushMessage(userId, message);
+    }
+}
+
+//定期的にTwitterをポーリングしてツイートをチェック
+setInterval(async () => {
+    console.log('チェック中');
+    const fromAccount = '＠Raita81162691';
+    const hashtag = '#ごりす';
+    const tweets = await fetchTweets(fromAccount, hashtag);
+
+    if (tweets.length > 0){
+        await sendTweets(tweets);
+    } else {
+        console.log('no');
+    }
+},60 * 1000);
+
+
 
 app.post('/webhook', line.middleware(config), (req, res) => {
     Promise
@@ -204,6 +253,8 @@ async function handleEvent(event) {
                 text: '該当する曲が見つかりませんでした。'
             })
         }
+    } else if {
+
     } else {
         return client.replyMessage(event.replyToken, {
             type: 'text',
@@ -225,8 +276,7 @@ async function handleEvent(event) {
 
 
 
-//LINE SDK クライアントの作成
-const client = new line.Client(config);
+
 
 //サーバーの起動
 const port = process.env.PORT || 3000;
