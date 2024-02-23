@@ -74,7 +74,7 @@ async function sendTweets(tweets) {
 //定期的にTwitterをポーリングしてツイートをチェック
 setInterval(async () => {
     console.log('チェック中');
-    const fromAccount = 'Raita81162691';
+    const fromAccount = '@NaganoRait2865';
     const hashtag = '#ごりす';
     const tweets = await fetchTweets(fromAccount, hashtag);
 
