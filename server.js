@@ -56,7 +56,7 @@ setInterval(async () => {
     } else {
         console.log('no');
     }
-},60 * 1000);
+},);
 
 
 
