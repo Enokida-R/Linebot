@@ -18,7 +18,7 @@ const client = new line.Client(config);
 async function fetchTweets(fromAccount, hashtag) {
     const query = `from:${fromAccount} ${hashtag}`;
     const url = `https://api.twitter.com/2/tweets/search/recent?query=${encodeURIComponent(query)}`;
-    const headers = { Authirization: `Bearer ${process.env.TEITTER_BEARE_TOKEN}`};
+    const headers = { Authorization: `Bearer ${process.env.TWITTER_BEARER_TOKEN}`};
 
     try {
         const responseT = await axios.get(url, { headers });
@@ -47,7 +47,7 @@ async function sendTweets(tweets) {
 //定期的にTwitterをポーリングしてツイートをチェック
 setInterval(async () => {
     console.log('チェック中');
-    const fromAccount = '＠Raita81162691';
+    const fromAccount = 'Raita81162691';
     const hashtag = '#ごりす';
     const tweets = await fetchTweets(fromAccount, hashtag);
 
@@ -253,8 +253,6 @@ async function handleEvent(event) {
                 text: '該当する曲が見つかりませんでした。'
             })
         }
-    } else if {
-
     } else {
         return client.replyMessage(event.replyToken, {
             type: 'text',
